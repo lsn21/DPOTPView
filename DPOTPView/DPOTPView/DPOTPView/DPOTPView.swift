@@ -3,6 +3,7 @@
 //  DPOTPView
 //
 //  Created by datt on 13/11/19.
+//  Fork created by Siarhei on 25.02.2021.
 //  Copyright © 2019 datt. All rights reserved.
 //
 
@@ -113,7 +114,7 @@ public protocol DPOTPViewDelegate {
         }
     }
     
-    fileprivate var arrTextFields : [OTPBackTextField] = []
+    open dynamic var arrTextFields : [OTPBackTextField] = []
     /** Override coder init, for IB/XIB compatibility */
     #if !TARGET_INTERFACE_BUILDER
     public required init?(coder aDecoder: NSCoder) {
@@ -288,11 +289,11 @@ protocol OTPBackTextFieldDelegate {
 }
 
 
-fileprivate class OTPBackTextField: UITextField {
+open class OTPBackTextField: UITextField {
     
     var OTPBackDelegate : OTPBackTextFieldDelegate?
     weak var dpOTPView : DPOTPView!
-    override var text: String? {
+    open override var text: String? {
         didSet {
             if text?.isEmpty ?? true {
                 self.backgroundColor = dpOTPView.backGroundColorTextField
@@ -302,12 +303,12 @@ fileprivate class OTPBackTextField: UITextField {
         }
     }
     
-    override func deleteBackward() {
+    open override func deleteBackward() {
         super.deleteBackward()
         OTPBackDelegate?.textFieldDidDelete(self)
     }
     
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
 //        if action == #selector(UIResponderStandardEditActions.copy(_:)) ||
 //            action == #selector(UIResponderStandardEditActions.cut(_:)) ||
 //            action == #selector(UIResponderStandardEditActions.select(_:)) ||
@@ -320,12 +321,12 @@ fileprivate class OTPBackTextField: UITextField {
         return false
     }
     
-    override func becomeFirstResponder() -> Bool {
+    open override func becomeFirstResponder() -> Bool {
         addSelectedBorderColor()
         return super.becomeFirstResponder()
     }
     
-    override func resignFirstResponder() -> Bool {
+    open override func resignFirstResponder() -> Bool {
         addUnselectedBorderColor()
         return super.resignFirstResponder()
     }
@@ -375,11 +376,11 @@ fileprivate class OTPBackTextField: UITextField {
         self.layer.addSublayer(border)
     }
     
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
+    open override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: dpOTPView.textEdgeInsets ?? UIEdgeInsets.zero)
     }
     
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    open override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: dpOTPView.editingTextEdgeInsets ?? UIEdgeInsets.zero)
     }
     
